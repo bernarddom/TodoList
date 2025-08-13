@@ -1,22 +1,21 @@
 <?php
+namespace App\Services;
 
 use App\Models\Category;
-use App\Models\TodoList;
 
 class CategoryService extends Service {
     public function store(
         $name,
         $description,
-        $userId
     ) {
-        $todoList = new Category();
-        $todoList->name = $name;
-        $todoList->name = $description;
-        return $todoList->save();
+        $category = new Category();
+        $category->name = $name;
+        $category->name = $description;
+        return $category->save();
     }
 
-    public function getLists() {
-        $todoList = new TodoList();
-        return $todoList->all();
+    public function getCategories() {
+        $category = new Category();
+        return $category->all();
     }
 }

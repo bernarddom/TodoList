@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Todo\CategoryController;
 use App\Http\Controllers\Todo\TodoList;
 use App\Http\Controllers\Todo\TodoListController;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,8 @@ Route::get('/flights', function () {
 
 })->middleware('auth');
 
-Route::prefix('list')->group(function () {
+Route::prefix('todo')->group(function () {
     Route::get('', [TodoListController::class, 'show']);
+    Route::get('category', [CategoryController::class, 'getCategories']);
+    Route::post('category', [CategoryController::class, 'store']);
 });
