@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TodoListItem extends Model
+class Category extends Model
 {
-    protected $table = "todo_list_items";
+    protected $table = "categories";
 }

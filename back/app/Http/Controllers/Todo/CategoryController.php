@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use TodoListService;
 
-class TodoListController extends Controller
+class CategoryController extends Controller
 {
     private $service;
     function __construct(){
-        $this->service = new TodoListService();
+        $this->service = new Catre();
     }
     public function store(Request $request) {
         $data = $request->all();

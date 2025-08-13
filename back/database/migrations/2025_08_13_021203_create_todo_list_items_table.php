@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\TodoList;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -12,12 +13,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('todo_lists', function (Blueprint $table) {
+        Schema::create('todo_list_items', function (Blueprint $table) {
             $table->id();
             $table->string("name");
             $table->string("description");
             $table->foreignIdFor(User::class);
+            $table->foreignIdFor(TodoList::class);
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('todo_list_id')->references('id')->on('todo_lists');
         });
     }
 
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('todo_lists');
+        Schema::dropIfExists('todo_list_items');
     }
 };
