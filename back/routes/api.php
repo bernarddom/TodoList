@@ -2,8 +2,12 @@
 
 use App\Http\Controllers\Todo\CategoryController;
 use App\Http\Controllers\Todo\TodoListController;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
 
 Route::get('/', function () {
     return view('welcome');
