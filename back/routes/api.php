@@ -23,6 +23,7 @@ Route::prefix('todo')->group(function () {
     //Lists
     Route::get('list', [TodoListController::class, 'show']);
 
+    Route::get('category/{id}', [CategoryController::class, 'getCategoryById']);
     Route::get('category', [CategoryController::class, 'getCategories']);
     Route::post('category', [CategoryController::class, 'store']);
 });
