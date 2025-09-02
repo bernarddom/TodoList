@@ -1,31 +1,44 @@
 <?php
+
 namespace App\Services;
 
-use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
-use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
-class BaseService extends Service {
+abstract class BaseService
+{
     protected Model $model;
-    public function store(
-        $data
-    ) {
-        $model = $data->id != null ? $this->model::find($id) : $this->model;
-        $model = $data;
-        $model->description = $description;
-        return $model->save();
+
+    public function __construct(Model $model)
+    {
+        $this->model = $model;
     }
 
-    public function getById($id){
-        $category = Category::find($id);
-        if($category == null) {
-            throw new NotFoundResourceException("Category with id ".$id." does not exist");
-        }
-        return $category;
+    // Generic CRUD
+    public function all()
+    {
+        return $this->model->all();
     }
 
-    public function getCategories() {
-        $category = new Category();
-        return $category->all();
+    public function find($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function store(array $data)
+    {
+        return $this->model->create($data);
+    }
+
+    public function update($id, array $data)
+    {
+        $item = $this->find($id);
+        $item->update($data);
+        return $item;
+    }
+
+    public function delete($id)
+    {
+        $item = $this->find($id);
+        return $item->delete();
     }
 }
