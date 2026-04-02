@@ -8,6 +8,17 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="DTOs\" />
+    <Folder Include="DTOs\Item\" />
+    <Folder Include="DTOs\List\" />
+    <Folder Include="Entities\" />
+    <Folder Include="Mappers\" />
   </ItemGroup>
 
 </Project>
