@@ -9,24 +9,28 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
 
     public DbSet<TodoItem> TodoItems { get; set; }
     public DbSet<TodoList> TodoLists { get; set; }
+
     public override int SaveChanges()
     {
-        ApplyAuditInfo();
+        ApplyAuditing();
         return base.SaveChanges();
     }
 
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        ApplyAuditInfo();
-        return await base.SaveChangesAsync(cancellationToken);
+        ApplyAuditing();
+        return base.SaveChangesAsync(cancellationToken);
     }
 
-    private void ApplyAuditInfo()
+    private void ApplyAuditing()
     {
         var entries = ChangeTracker
             .Entries()
             .Where(e => e.Entity is AuditableEntity &&
-                   (e.State == EntityState.Added || e.State == EntityState.Modified));
+                        (e.State == EntityState.Added || e.State == EntityState.Modified));
+
+        var now = DateTime.UtcNow;
+        // var user = _currentUser?.UserId ?? "system";
 
         foreach (var entry in entries)
         {
@@ -34,10 +38,18 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
 
             if (entry.State == EntityState.Added)
             {
-                entity.CreatedAt = DateTime.UtcNow;
+                entity.CreatedAt = now;
+                // entity.CreatedBy = user;
             }
 
-            entity.UpdatedAt = DateTime.UtcNow;
+            if (entry.State == EntityState.Modified)
+            {
+                entity.UpdatedAt = now;
+                // entity.UpdatedBy = user;
+
+                entry.Property(nameof(AuditableEntity.CreatedAt)).IsModified = false;
+                // entry.Property(nameof(AuditableEntity.CreatedBy)).IsModified = false;
+            }
         }
     }
 }
