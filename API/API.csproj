@@ -18,6 +18,7 @@
     <Folder Include="DTOs\Item\" />
     <Folder Include="DTOs\List\" />
     <Folder Include="Mappers\" />
+    <Folder Include="Mappers\List\" />
   </ItemGroup>
 
 </Project>
