@@ -3,12 +3,9 @@ using API.DTOs.Item;
 
 namespace API.DTOs.List;
 
-public class ViewListDto
+public class ViewListsDto
 {
     public required int Id { get; set; }
     public required string Name { get; set; }
     public required string Description { get; set; }
-    public required DateTime createdAt { get; set; }
-    public required int TotalItems { get; set; }
-    public List<ViewItemDto>? ItemsPreview { get; set; }
 }

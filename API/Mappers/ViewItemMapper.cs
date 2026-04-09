@@ -1,4 +1,5 @@
 using System;
+using System.Linq.Expressions;
 using API.DTOs.Item;
 using API.Entities;
 
@@ -6,9 +7,9 @@ namespace API.Mappers;
 
 public static class ViewItemMapper
 {
-    public static ViewItemDto ToDto(this TodoItem todoItem)
+    public static Expression<Func<TodoItem, ViewItemDto>> ToDto()
     {
-        return new ViewItemDto
+        return todoItem => new ViewItemDto
         {
             Value = todoItem.Value,
             Checkmark = todoItem.Checkmark

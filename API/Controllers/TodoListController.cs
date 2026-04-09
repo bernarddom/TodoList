@@ -31,7 +31,7 @@ namespace API.Controllers
                 .OrderBy(x => x.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
-                .Select(ViewListMapper.ToDto())
+                .Select(ViewListsMapper.ToDto())
                 .ToListAsync();
 
 
@@ -83,7 +83,7 @@ namespace API.Controllers
                 // Items = todoItems
             };
 
-            return Ok(todoList);
+            return Ok(todoListDto);
         }
     }
 }
