@@ -76,12 +76,7 @@ namespace API.Controllers
             //     }
             // ).ToList();
 
-            var todoListDto = new ViewListDto
-            {
-                Name = todoList.Name,
-                Description = todoList.Description == null ? "" : todoList.Description,
-                // Items = todoItems
-            };
+            var todoListDto = ViewListMapper.ToDto().Compile()(todoList);
 
             return Ok(todoListDto);
         }

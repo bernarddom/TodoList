@@ -1,6 +1,7 @@
 using API.Data;
 using API.DTOs.Item;
 using API.Entities;
+using API.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +26,31 @@ namespace API.Controllers
                     Checkmark = i.Checkmark
                 })
                 .FirstOrDefaultAsync();
+
+            if (item == null)
+                return NotFound(new { message = "Item not found" });
+
+            return Ok(item);
+
+            // var todoList = await _context.TodoLists
+            //     .Include(t => t.TodoItems)
+            //     .FirstOrDefaultAsync(t => t.Id == listId);
+
+            // if (todoList == null)
+            //     return NotFound(new { message = "List not found" });
+
+            // var todoItem = _context.TodoItems.FirstOrDefault(i => i.Id == id);
+
+            // return
+        }
+
+        [HttpGet("")]
+        public async Task<ActionResult<ViewItemDto>> GetItems(int listId)
+        {
+            var item = await _context.TodoItems
+                .Where(i => i.ListId == listId)
+                .Select(ViewItemMapper.ToDto())
+                .ToListAsync();
 
             if (item == null)
                 return NotFound(new { message = "Item not found" });
