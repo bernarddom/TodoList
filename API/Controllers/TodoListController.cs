@@ -3,10 +3,14 @@ using API.DTOs;
 using API.DTOs.Item;
 using API.DTOs.List;
 using API.Entities;
+using API.Mappers;
+using System.Linq;
 using API.Mappers.List;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+using System.Collections.ObjectModel;
 
 namespace API.Controllers
 {
@@ -65,7 +69,23 @@ namespace API.Controllers
         [Route("{listId}")]
         public async Task<ActionResult<ViewListDto>> ViewList(int listId)
         {
-            var todoList = await _context.TodoLists.FindAsync(listId);
+            var todoList = await _context.TodoLists
+                            .Where(l => l.Id == listId)
+                            .Select(l => new ViewListDto
+                            {
+                                Id = l.Id ?? 0,
+                                Name = l.Name,
+                                Description = l.Description ?? "",
+                                createdAt = l.CreatedAt,
+                                TotalItems = l.TodoItems != null ? l.TodoItems.Count() : 0,
+                                ItemsPreview = (l.TodoItems ?? new List<TodoItem>())
+                                        .AsQueryable()
+                                        .OrderBy(i => i.CreatedAt)
+                                        .Take(10)
+                                        .Select(ViewItemMapper.ToDto)
+                                        .ToList()
+                            })
+                            .FirstOrDefaultAsync();
 
             if (todoList == null) return NotFound();
 
@@ -76,9 +96,9 @@ namespace API.Controllers
             //     }
             // ).ToList();
 
-            var todoListDto = ViewListMapper.ToDto().Compile()(todoList);
+            // var todoListDto = ViewListMapper.ToDto().Compile()(todoList);
 
-            return Ok(todoListDto);
+            return Ok(todoList);
         }
     }
 }

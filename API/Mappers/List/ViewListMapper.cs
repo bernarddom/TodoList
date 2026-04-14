@@ -23,7 +23,7 @@ public static class ViewListMapper
                         .Where(i => i.ListId == list.Id)
                         .OrderBy(i => i.CreatedAt)
                         .Take(10)
-                        .Select(ViewItemMapper.ToDto())
+                        .Select(ViewItemMapper.ToDto)
                         .ToList()
         };
     }

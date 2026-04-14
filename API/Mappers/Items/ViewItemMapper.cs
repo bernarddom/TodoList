@@ -7,12 +7,10 @@ namespace API.Mappers;
 
 public static class ViewItemMapper
 {
-    public static Expression<Func<TodoItem, ViewItemDto>> ToDto()
-    {
-        return todoItem => new ViewItemDto
+    public static Expression<Func<TodoItem, ViewItemDto>> ToDto =>
+        todoItem => new ViewItemDto
         {
             Value = todoItem.Value,
             Checkmark = todoItem.Checkmark
         };
-    }
 }

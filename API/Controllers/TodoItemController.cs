@@ -49,7 +49,7 @@ namespace API.Controllers
         {
             var item = await _context.TodoItems
                 .Where(i => i.ListId == listId)
-                .Select(ViewItemMapper.ToDto())
+                .Select(ViewItemMapper.ToDto)
                 .ToListAsync();
 
             if (item == null)
