@@ -78,11 +78,10 @@ namespace API.Controllers
                                 Description = l.Description ?? "",
                                 createdAt = l.CreatedAt,
                                 TotalItems = l.TodoItems != null ? l.TodoItems.Count() : 0,
-                                ItemsPreview = (l.TodoItems ?? new List<TodoItem>())
-                                        .AsQueryable()
-                                        .OrderBy(i => i.CreatedAt)
+                                ItemsPreview = l.TodoItems!
+                                        .OrderBy(x => x.CreatedAt)
                                         .Take(10)
-                                        .Select(ViewItemMapper.ToDto)
+                                        .Select(ViewItemMapper.ToDto.Compile())
                                         .ToList()
                             })
                             .FirstOrDefaultAsync();

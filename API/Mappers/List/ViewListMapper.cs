@@ -21,7 +21,7 @@ public static class ViewListMapper
             ItemsPreview = (list.TodoItems ?? Enumerable.Empty<TodoItem>()
                             ).AsQueryable()
                         .Where(i => i.ListId == list.Id)
-                        .OrderBy(i => i.CreatedAt)
+                        // .OrderBy(i => i.CreatedAt)
                         .Take(10)
                         .Select(ViewItemMapper.ToDto)
                         .ToList()
